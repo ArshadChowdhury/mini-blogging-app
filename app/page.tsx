@@ -24,7 +24,9 @@ export default async function HomePage() {
         <main>
           <div className="grid gap-8 md:grid-cols-2">
             {posts.map((post) => (
-              <h1>{post.id}</h1>
+              <h1 key={post.id} className="text-gray-600">
+                {post.content}
+              </h1>
             ))}
           </div>
         </main>
