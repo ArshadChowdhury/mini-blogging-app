@@ -8,7 +8,7 @@ async function getPosts() {
   return prisma.post.findMany({
     where: { published: true },
     orderBy: { createdAt: "desc" },
-    take: 6,
+    take: 3,
   });
 }
 
@@ -47,7 +47,14 @@ function Hero() {
 async function PostsSection() {
   const posts = await getPosts();
 
-  return <InfinitePostsList initialPosts={posts} />;
+  if (posts.length > 0) {
+    return <InfinitePostsList initialPosts={posts} />;
+  }
+  return (
+    <p className="text-2xl text-center font-semibold">
+      No articles available now !!
+    </p>
+  );
 }
 
 export default function HomePage() {
