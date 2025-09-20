@@ -20,15 +20,18 @@ Follow these steps to set up and run the project locally.
     ```
 
 3.  **Set up the database:**
-    Create a `.env` file in the project root and add your database connection URL. But for local development, we'll use a SQLite database so change the schema.prisma's url to - 
+    Create a `.env` file in the project root and add your database connection URL. But for local development, we'll use a SQLite database so we need to change this in schema.prisma - 
     ```env
-    url = "file:./dev.db"
+    datasource db {
+      provider = "sqlite"
+      url = "file:./dev.db" 
+    }
     ```
 
-4.  **Run Prisma migrations:**
-    This command will create the database file and apply the necessary schema.
+4.  **Run Prisma generation**
+    This command will generate prisma & migration tables as necessary.
     ```bash
-    npx prisma migrate dev --name init
+    npx prisma generate
     ```
 
 5.  **Start the development server:**
