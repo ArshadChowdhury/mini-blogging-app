@@ -1,23 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "1");
-  const limit = parseInt(searchParams.get("limit") || "10");
-  const search = searchParams.get("search");
+  const limit = parseInt(searchParams.get("limit") || "6");
+  const search = searchParams.get("search")?.trim();
   const skip = (page - 1) * limit;
 
   try {
-    const where = search
-      ? {
-          OR: [
-            { title: { contains: search, mode: "insensitive" as const } },
-            { content: { contains: search, mode: "insensitive" as const } },
-          ],
-          published: true,
-        }
-      : { published: true };
+    let where: Prisma.PostWhereInput = { published: true };
+
+    if (search) {
+      where = {
+        AND: [
+          { published: true },
+          {
+            OR: [
+              { title: { contains: search } },
+              { content: { contains: search } },
+              { excerpt: { contains: search } },
+            ],
+          },
+        ],
+      };
+    }
 
     const [posts, total] = await Promise.all([
       prisma.post.findMany({
@@ -36,9 +44,11 @@ export async function GET(request: NextRequest) {
         limit,
         total,
         totalPages: Math.ceil(total / limit),
+        hasMore: skip + posts.length < total,
       },
     });
   } catch (error) {
+    console.error("API Error:", error);
     return NextResponse.json(
       { error: "Failed to fetch posts" },
       { status: 500 }
@@ -62,7 +72,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to create post" },
+      { error: `Failed to create post error : ${error}` },
       { status: 500 }
     );
   }
