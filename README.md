@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini Blogging App
 
-## Getting Started
+This project is a small-scale blogging platform built with modern web technologies. It showcases key features of Next.js 15 including Server Components, Server Actions and data-fetching strategies to create a fast, dynamic and scalable application.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### How to Run the Project
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Follow these steps to set up and run the project locally.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/ArshadChowdhury/mini-blogging-app.git
+    cd mini-blogging-platform
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2.  **Install dependencies:**
+    ```bash
+    pnpm install
+    ```
 
-## Learn More
+3.  **Set up the database:**
+    Create a `.env` file in the project root and add your database connection URL. But for local development, we'll use a SQLite database so change the schema.prisma's to - 
+    ```env
+    url = "file:./dev.db"
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+4.  **Run Prisma migrations:**
+    This command will create the database file and apply the necessary schema.
+    ```bash
+    npx prisma migrate dev --name init
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5.  **Start the development server:**
+    ```bash
+    pnpm run dev
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6.  **Open the application:**
+    Your application will be running at `http://localhost:3000`.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ✨ Features Implemented
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This platform includes the following key features:
+
+* **Homepage (`/`)**: Displays a list of blog posts with **infinite scroll** for a seamless user experience.
+* **Post Details (`/post/[id]`)**: A dedicated page for viewing a single post's content.
+* **Search Functionality (`/search`)**: Allows users to search for posts by their title or content.
+* **Admin Page (`/admin`)**: A dedicated page to **create new blog posts** using a form. This form leverages **Server Actions** for secure and efficient data submission.
+
+---
+
+### 💻 Tech Stack and Choices
+
+| Category | Technology/Choice | Reason |
+| :--- | :--- | :--- |
+| **Framework** | **Next.js 15 (App Router)** | Chosen for its powerful features like Server Components and Server Actions, which enable server-side rendering for improved performance and data security. The App Router provides a modern, flexible routing and data-fetching model. |
+| **Styling** | **Tailwind CSS** | A utility-first CSS framework that allows for rapid UI development by writing styles directly in the markup. It's highly customizable and efficient. |
+| **Database & ORM** | **Prisma** | A next-generation ORM that simplifies database access with a powerful, type-safe API. It handles migrations and database interactions efficiently, making development faster and less error-prone. |
+| **Type Checking** | **TypeScript** | Used throughout the project to provide static typing. This helps catch errors early, improves code quality, and enhances developer productivity, especially in larger projects. |
+| **Data Fetching** | **Server Components** | Data fetching is performed directly within Server Components (`async` components), eliminating the need for client-side API calls. This reduces bundle size and improves initial page load times. |
+| **Mutations** | **Server Actions** | Implemented for creating new posts on the `/admin` page. Server Actions handle form submissions securely on the server, simplifying state management and reducing boilerplate code compared to traditional API routes. |
+| **State Management** | **React Query (TanStack Query)** | It's not a hard dependency for this simple app that's why didn't implement React-Query but it's an excellent choice for managing server state, providing automatic caching, background fetching, and revalidation to ensure data is always fresh and responsive. |
