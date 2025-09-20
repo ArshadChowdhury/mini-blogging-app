@@ -11,7 +11,7 @@ Follow these steps to set up and run the project locally.
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/ArshadChowdhury/mini-blogging-app.git
-    cd mini-blogging-platform
+    cd mini-blogging-app
     ```
 
 2.  **Install dependencies:**
@@ -20,7 +20,7 @@ Follow these steps to set up and run the project locally.
     ```
 
 3.  **Set up the database:**
-    Create a `.env` file in the project root and add your database connection URL. But for local development, we'll use a SQLite database so change the schema.prisma's to - 
+    Create a `.env` file in the project root and add your database connection URL. But for local development, we'll use a SQLite database so change the schema.prisma's url to - 
     ```env
     url = "file:./dev.db"
     ```
