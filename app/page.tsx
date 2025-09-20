@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { prisma } from "./lib/prisma";
+import { PostCard } from "./components/PostCard";
 
 async function getPosts() {
   return prisma.post.findMany({
@@ -23,10 +24,8 @@ export default async function HomePage() {
 
         <main>
           <div className="grid gap-8 md:grid-cols-2">
-            {posts.map((post) => (
-              <h1 key={post.id} className="text-gray-600">
-                {post.content}
-              </h1>
+             {posts.map((post) => (
+              <PostCard key={post.id} post={post} />
             ))}
           </div>
         </main>
