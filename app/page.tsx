@@ -1,10 +1,15 @@
+export const revalidate = 60;
+
 import { Suspense } from "react";
 import { prisma } from "./lib/prisma";
 import { SearchBar } from "./components/SearchBar";
 import { InfinitePostsList } from "./components/InfinitePostsList";
+import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
 async function getPosts() {
+  noStore();
+
   return prisma.post.findMany({
     where: { published: true },
     orderBy: { createdAt: "desc" },
